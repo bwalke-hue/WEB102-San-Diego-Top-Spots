@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Gas Lamp Quarter",
+    "description": "Nightlife, historic 16-block district",
+    "image": "images/gaslamp.webp",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJzXZVuFlT2YAR6qbNCOmtB4c"
+  },
+  {
+    "name": "USS Midway",
+    "description": "Retired aircraft carrier",
+    "image": "images/uss-midway.jpg",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJwYBuKqtU2YARslNFQDCJt_s"
+  },
+  {
+    "name": "Balboa Park",
+    "description": "Large urban park w/ gardens",
+    "image": "images/balboa-park.webp",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJA8tw-pZU2YARxPYVsDwL8-0"
+  },
+  {
+    "name": "Little Italy",
+    "description": "Nice restaurants",
+    "image": "images/little-italy.jpg",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJSYlUO7JU2YARuNT5e8TcPCQ"
+  },
+  {
+    "name": "Horton Plaza Park",
+    "description": "Central Gaslamp, nice shops",
+    "image": "images/horton-plaza-park.jpg",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ145abohV2YARbnTj6hgB7SY"
+  },
+  {
+    "name": "Petco Park",
+    "description": "Padres MLB",
+    "image": "images/petco-park.jpg",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ7fMsvKtU2YARXM4yStBv8rU"
+  },
+  {
+    "name": "Rusticucina",
+    "description": "Sicilian/Italian farm-to-neighborhood restaurant",
+    "image": "images/rusticucina.jpg",
+    "mapsUrl": "https://www.google.com/maps/place/?q=place_id:ChIJ__9L5OhU2YARdghSeG0jiTU"
+  }
+]

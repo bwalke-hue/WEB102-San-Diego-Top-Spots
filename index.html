@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Diego Top Spots</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+  :root {
+    --sd-blue: #005a9c;
+    --sd-sand: #f4ede1;
+    --sd-accent: #ff6b35;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--sd-sand);
+    margin: 0;
+    padding: 0 0 3rem 0;
+    color: #222;
+  }
+  header {
+    background: var(--sd-blue);
+    color: white;
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0 0 0.25rem 0;
+    font-size: 2rem;
+  }
+  header p {
+    margin: 0;
+    opacity: 0.9;
+  }
+  .controls {
+    max-width: 900px;
+    margin: 1.5rem auto 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .controls input, .controls select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  .controls input { flex: 1; min-width: 200px; }
+  table {
+    max-width: 900px;
+    margin: 1.5rem auto 0 auto;
+    width: calc(100% - 2rem);
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  thead {
+    background: var(--sd-blue);
+    color: white;
+  }
+  th, td {
+    padding: 0.85rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  th {
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  tbody tr:hover {
+    background: #fafafa;
+  }
+  .spot-name {
+    font-weight: 600;
+    color: var(--sd-blue);
+  }
+  .category-tag {
+    display: inline-block;
+    background: #eaf3fb;
+    color: var(--sd-blue);
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+  .spot-thumb {
+    width: 70px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+  .maps-link {
+    color: var(--sd-accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .maps-link:hover {
+    text-decoration: underline;
+  }
+  #status {
+    max-width: 900px;
+    margin: 1rem auto 0 auto;
+    padding: 0 1rem;
+    color: #666;
+    font-size: 0.9rem;
+  }
+  @media (max-width: 600px) {
+    table, thead, tbody, th, td, tr { display: block; }
+    thead tr { display: none; }
+    td {
+      border: none;
+      border-bottom: 1px solid #eee;
+      padding: 0.4rem 1rem;
+    }
+    tr { border-bottom: 2px solid var(--sd-blue); padding-bottom: 0.5rem; margin-bottom: 0.5rem; background: white; }
+    td::before {
+      content: attr(data-label);
+      font-weight: 700;
+      display: block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--sd-blue);
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>San Diego Top Spots</h1>
+  <p>A curated list of must-see places around America's Finest City</p>
+</header>
+
+<div class="controls">
+  <input type="text" id="searchInput" placeholder="Search by name...">
+</div>
+
+<div id="status"></div>
+
+<table id="spotsTable">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody id="spotsBody">
+    <!-- rows injected by jQuery -->
+  </tbody>
+</table>
+
+<script>
+$(document).ready(function () {
+  let allSpots = [];
+
+  function renderRows(spots) {
+    const $body = $('#spotsBody');
+    $body.empty();
+
+    if (spots.length === 0) {
+      $body.append('<tr><td colspan="4" style="text-align:center; color:#888;">No spots match your search.</td></tr>');
+      return;
+    }
+
+    spots.forEach(function (spot) {
+      const row = $('<tr></tr>');
+      row.append(
+        '<td data-label="Image"><img class="spot-thumb" src="' + spot.image +
+        '" alt="' + spot.name + '" onerror="this.style.display=\'none\'"></td>'
+      );
+      row.append('<td data-label="Name" class="spot-name">' + spot.name + '</td>');
+      row.append('<td data-label="Description">' + spot.description + '</td>');
+      row.append('<td data-label="Link"><a class="maps-link" href="' + spot.mapsUrl + '" target="_blank" rel="noopener">Map →</a></td>');
+      $body.append(row);
+    });
+  }
+
+  function applyFilters() {
+    const query = $('#searchInput').val().toLowerCase();
+
+    const filtered = allSpots.filter(function (spot) {
+      return spot.name.toLowerCase().includes(query);
+    });
+
+    renderRows(filtered);
+    $('#status').text(filtered.length + ' of ' + allSpots.length + ' spots shown');
+  }
+
+  // Load JSON data
+  $.getJSON('spots.json')
+    .done(function (data) {
+      allSpots = data;
+      renderRows(allSpots);
+      $('#status').text(allSpots.length + ' of ' + allSpots.length + ' spots shown');
+    })
+    .fail(function () {
+      $('#status').text('Could not load spots.json. Make sure it is in the same folder as this HTML file and you are viewing this via a local server (not file://).');
+    });
+
+  $('#searchInput').on('input', applyFilters);
+});
+</script>
+
+</body>
+</html>
