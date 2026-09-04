@@ -1,5 +1,6 @@
 $(document).ready(function () {
-$.getJSON('spots_1.json', function(data) { ... });    // data is expected to be an array of top-spot objects, e.g.:
+  $.getJSON('spots_1.json', function (data) {
+    // data is expected to be an array of top-spot objects, e.g.:
     // { name, description, latitude, longitude }
     const spots = Array.isArray(data) ? data : data.topSpots || data.spots;
 
