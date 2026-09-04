@@ -1,0 +1,11 @@
+{
+  "name": "web102-san-diego-top-spots",
+  "version": "1.0.0",
+  "description": "San Diego Top Spots - JSON to HTML table with jQuery",
+  "scripts": {
+    "start": "node-static . -p 8888"
+  },
+  "dependencies": {
+    "node-static": "^0.7.11"
+  }
+}
